@@ -1,0 +1,28 @@
+{
+  "name": "steam-workshop",
+  "version": "0.0.1",
+  "description": "Download files and collections from Steam Workshop",
+  "main": "index.js",
+  "dependencies": {
+    "async": "^1.4.2",
+    "path": "^0.11.14",
+    "request": "^2.60.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dahlgren/node-steam-workshop.git"
+  },
+  "keywords": [
+    "steam"
+  ],
+  "author": "Björn Dahlgren",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dahlgren/node-steam-workshop/issues"
+  },
+  "homepage": "https://github.com/Dahlgren/node-steam-workshop"
+}
