@@ -3,7 +3,7 @@ var fs = require('fs');
 var path = require('path');
 var request = require('request');
 
-var FILE_URL = "http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v0001/"
+var FILE_URL = "http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v0001/";
 var COLLECTION_URL = "http://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v0001/";
 
 var SteamWorkshop = function (folder) {
@@ -12,7 +12,7 @@ var SteamWorkshop = function (folder) {
 
 /* Prepare request payload */
 
-SteamWorkshop.prototype.prepareCollectionData = function (ids) {
+SteamWorkshop.prepareCollectionData = function (ids) {
   return {
     format: 'json',
     collectioncount: ids.length,
@@ -20,7 +20,7 @@ SteamWorkshop.prototype.prepareCollectionData = function (ids) {
   };
 };
 
-SteamWorkshop.prototype.prepareFilesData = function (ids) {
+SteamWorkshop.prepareFilesData = function (ids) {
   return {
     format: 'json',
     itemcount: ids.length,
@@ -99,8 +99,8 @@ SteamWorkshop.prototype.saveFilesToDisk = function (files, folder, cb) {
  */
 SteamWorkshop.prototype.downloadFiles = function (ids, cb) {
   var self = this;
-  
-  self.loadFilesData(self.prepareFilesData(ids), function(err, files) {
+
+  self.loadFilesData(SteamWorkshop.prepareFilesData(ids), function(err, files) {
     if (err) {
       cb(err);
     } else {
@@ -123,8 +123,8 @@ SteamWorkshop.prototype.downloadFile = function (id, cb) {
  */
 SteamWorkshop.prototype.downloadCollections = function (ids, cb) {
   var self = this;
-  
-  self.loadCollectionData(self.prepareCollectionData(ids), function(err, fileIds) {
+
+  self.loadCollectionData(SteamWorkshop.prepareCollectionData(ids), function(err, fileIds) {
     if (err) {
       cb(err);
     } else {
