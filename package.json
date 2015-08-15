@@ -22,7 +22,11 @@
   "keywords": [
     "steam"
   ],
-  "author": "Björn Dahlgren",
+  "author": {
+    "name": "Björn Dahlgren",
+    "email": "bjorn@dahlgren.at",
+    "url": "http://dahlgren.at/"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Dahlgren/node-steam-workshop/issues"
