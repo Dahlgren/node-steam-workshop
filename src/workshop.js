@@ -38,7 +38,17 @@ SteamWorkshop.prototype.loadCollectionData = function (requestData, cb) {
     }
 
     var data = JSON.parse(body);
+
+    if (!data || !data.response || !data.response.collectiondetails) {
+      cb(new Error("No data found"));
+      return;
+    }
+
     var fileIds = data.response.collectiondetails.map(function (collection) {
+      if (!collection.children) {
+        return [];
+      }
+
       return collection.children.map(function (file) {
         return file.publishedfileid;
       });
@@ -57,6 +67,12 @@ SteamWorkshop.prototype.loadFilesData = function (requestData, cb) {
     }
 
     var data = JSON.parse(body);
+
+    if (!data || !data.response || !data.response.publishedfiledetails) {
+      cb(new Error("No data found"));
+      return;
+    }
+
     var files = data.response.publishedfiledetails;
     cb(null, files);
   });
