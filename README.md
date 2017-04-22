@@ -31,12 +31,12 @@ Takes a string or integer as argument.
 Download files to your output folder.
 Takes an array of strings or integers as argument.
 
-#### downloadCollection(fileId, callback(err, files))
+#### downloadCollection(collectionId, callback(err, files))
 
 Download a collection of files to your output folder.
 Takes a string or integer as argument.
 
-#### downloadFiles(fileIds, callback(err, files))
+#### downloadCollections(colectionIds, callback(err, files))
 
 Download collections of files to your output folder.
 Takes an array of strings or integers as argument.
