@@ -37,11 +37,15 @@ SteamWorkshop.prototype.loadCollectionData = function (requestData, cb) {
       return;
     }
 
-    var data = JSON.parse(body);
+    var data = null;
+    try {
+      data = JSON.parse(body);
+    } catch(e) {
+      return cb(new Error("Error parsing response from Steam Workshop"));
+    }
 
     if (!data || !data.response || !data.response.collectiondetails) {
-      cb(new Error("No data found"));
-      return;
+      return cb(new Error("No data found"));
     }
 
     var fileIds = data.response.collectiondetails.map(function (collection) {
@@ -66,11 +70,15 @@ SteamWorkshop.prototype.loadFilesData = function (requestData, cb) {
       return;
     }
 
-    var data = JSON.parse(body);
+    var data = null;
+    try {
+      data = JSON.parse(body);
+    } catch(e) {
+      return cb(new Error("Error parsing response from Steam Workshop"));
+    }
 
     if (!data || !data.response || !data.response.publishedfiledetails) {
-      cb(new Error("No data found"));
-      return;
+      return cb(new Error("No data found"));
     }
 
     var files = data.response.publishedfiledetails;
