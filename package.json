@@ -5,7 +5,6 @@
   "main": "src/workshop.js",
   "dependencies": {
     "async": "^1.4.2",
-    "path": "^0.11.14",
     "request": "^2.60.0"
   },
   "devDependencies": {
