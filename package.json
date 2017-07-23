@@ -9,10 +9,17 @@
   },
   "devDependencies": {
     "mocha": "^2.2.5",
-    "should": "^7.0.4"
+    "should": "^7.0.4",
+    "standard": "^10.0.2"
   },
   "scripts": {
+    "lint": "standard --verbose",
     "test": "./node_modules/mocha/bin/mocha"
+  },
+  "standard": {
+    "env": [
+      "mocha"
+    ]
   },
   "repository": {
     "type": "git",
