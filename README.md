@@ -36,7 +36,17 @@ Takes an array of strings or integers as argument.
 Download a collection of files to your output folder.
 Takes a string or integer as argument.
 
-#### downloadCollections(colectionIds, callback(err, files))
+#### downloadCollections(collectionIds, callback(err, files))
 
 Download collections of files to your output folder.
 Takes an array of strings or integers as argument.
+
+#### getCollectionDetails(collectionIds, callback(err, files))
+
+Get details about collections from Steam Workshop.
+Takes an number, a string or an array of strings or integers as argument.
+
+#### getPublishedFileDetails(fileIds, callback(err, files))
+
+Get details about files from Steam Workshop.
+Takes an number, a string or an array of strings or integers as argument.

@@ -2,6 +2,33 @@ require('should')
 var SteamWorkshop = require('../src/workshop')
 
 describe('SteamWorkshop', function () {
+  describe('ensureArray', function () {
+    it('should change number to array of number', function () {
+      var arr = SteamWorkshop.ensureArray(123)
+      arr.should.eql([123])
+    })
+
+    it('should change string to array of string', function () {
+      var arr = SteamWorkshop.ensureArray('123')
+      arr.should.eql(['123'])
+    })
+
+    it('should retain array of number', function () {
+      var arr = SteamWorkshop.ensureArray([123])
+      arr.should.eql([123])
+    })
+
+    it('should retain array of numbers', function () {
+      var arr = SteamWorkshop.ensureArray([123, 456])
+      arr.should.eql([123, 456])
+    })
+
+    it('should retain array of string', function () {
+      var arr = SteamWorkshop.ensureArray(['123', '456'])
+      arr.should.eql(['123', '456'])
+    })
+  })
+
   describe('prepareCollectionData', function () {
     it('should set single id correctly', function () {
       var data = SteamWorkshop.prepareCollectionData([123])
