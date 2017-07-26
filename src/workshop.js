@@ -3,8 +3,8 @@ var fs = require('fs')
 var path = require('path')
 var request = require('request')
 
-var FILE_URL = 'http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v0001/'
-var COLLECTION_URL = 'http://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v0001/'
+var FILE_URL = 'https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/'
+var COLLECTION_URL = 'https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/'
 
 var SteamWorkshop = function (folder) {
   this.folder = folder
