@@ -43,10 +43,22 @@ Takes an array of strings or integers as argument.
 
 #### getCollectionDetails(collectionIds, callback(err, files))
 
+https://partner.steamgames.com/doc/webapi/ISteamRemoteStorage#GetCollectionDetails
+
 Get details about collections from Steam Workshop.
 Takes an number, a string or an array of strings or integers as argument.
 
 #### getPublishedFileDetails(fileIds, callback(err, files))
 
+https://partner.steamgames.com/doc/webapi/ISteamRemoteStorage#GetPublishedFileDetails
+
 Get details about files from Steam Workshop.
 Takes an number, a string or an array of strings or integers as argument.
+
+#### queryFiles(query, callback(err, files))
+
+https://partner.steamgames.com/doc/webapi/IPublishedFileService#QueryFiles
+
+Search Steam Workshop for files with passed query argument.
+`key` is the only required value for query.
+bool values should be passed as a number or string, 1 or 0.

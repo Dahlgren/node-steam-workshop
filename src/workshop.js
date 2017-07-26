@@ -5,6 +5,7 @@ var request = require('request')
 
 var FILE_URL = 'https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/'
 var COLLECTION_URL = 'https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/'
+var QUERY_FILES_URL = 'https://api.steampowered.com/IPublishedFileService/QueryFiles/v1/'
 
 var SteamWorkshop = function (folder) {
   this.folder = folder
@@ -67,6 +68,27 @@ SteamWorkshop.prototype.getPublishedFileDetails = function (ids, cb) {
   var requestData = SteamWorkshop.prepareFilesData(ids)
 
   request.post(FILE_URL, {form: requestData}, function (err, resp, body) {
+    if (err) {
+      return cb(err)
+    }
+
+    var data = null
+    try {
+      data = JSON.parse(body)
+    } catch (e) {
+      return cb(new Error('Error parsing response from Steam Workshop'))
+    }
+
+    if (!data || !data.response || !data.response.publishedfiledetails) {
+      return cb(new Error('No data found'))
+    }
+
+    cb(null, data.response.publishedfiledetails)
+  })
+}
+
+SteamWorkshop.prototype.queryFiles = function (query, cb) {
+  request.get(QUERY_FILES_URL, {qs: query}, function (err, resp, body) {
     if (err) {
       return cb(err)
     }
