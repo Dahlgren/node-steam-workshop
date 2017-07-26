@@ -4,12 +4,12 @@
   "description": "Download files and collections from Steam Workshop",
   "main": "src/workshop.js",
   "dependencies": {
-    "async": "^1.4.2",
-    "request": "^2.60.0"
+    "async": "^2.5.0",
+    "request": "^2.81.0"
   },
   "devDependencies": {
-    "mocha": "^2.2.5",
-    "should": "^7.0.4",
+    "mocha": "^3.4.2",
+    "should": "^11.2.1",
     "standard": "^10.0.2"
   },
   "scripts": {
