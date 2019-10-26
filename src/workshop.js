@@ -43,7 +43,7 @@ SteamWorkshop.prototype.getCollectionDetails = function (ids, cb) {
   ids = SteamWorkshop.ensureArray(ids)
   var requestData = SteamWorkshop.prepareCollectionData(ids)
 
-  request.post(COLLECTION_URL, {form: requestData}, function (err, resp, body) {
+  request.post(COLLECTION_URL, { form: requestData }, function (err, resp, body) {
     if (err) {
       return cb(err)
     }
@@ -67,7 +67,7 @@ SteamWorkshop.prototype.getPublishedFileDetails = function (ids, cb) {
   ids = SteamWorkshop.ensureArray(ids)
   var requestData = SteamWorkshop.prepareFilesData(ids)
 
-  request.post(FILE_URL, {form: requestData}, function (err, resp, body) {
+  request.post(FILE_URL, { form: requestData }, function (err, resp, body) {
     if (err) {
       return cb(err)
     }
@@ -88,7 +88,7 @@ SteamWorkshop.prototype.getPublishedFileDetails = function (ids, cb) {
 }
 
 SteamWorkshop.prototype.queryFiles = function (query, cb) {
-  request.get(QUERY_FILES_URL, {qs: query}, function (err, resp, body) {
+  request.get(QUERY_FILES_URL, { qs: query }, function (err, resp, body) {
     if (err) {
       return cb(err)
     }
