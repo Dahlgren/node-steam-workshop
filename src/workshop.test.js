@@ -1,5 +1,5 @@
 require('should')
-var SteamWorkshop = require('../src/workshop')
+var SteamWorkshop = require('./workshop')
 
 describe('SteamWorkshop', function () {
   describe('ensureArray', function () {
