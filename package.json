@@ -4,7 +4,7 @@
   "description": "Download files and collections from Steam Workshop",
   "main": "src/workshop.js",
   "dependencies": {
-    "request": "^2.88.0"
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "jest": "^25.2.7",

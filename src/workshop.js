@@ -42,16 +42,9 @@ SteamWorkshop.prototype.getCollectionDetails = function (ids, cb) {
   ids = SteamWorkshop.ensureArray(ids)
   var requestData = SteamWorkshop.prepareCollectionData(ids)
 
-  request.post(COLLECTION_URL, { form: requestData }, function (err, resp, body) {
+  request.post(COLLECTION_URL, { form: requestData, json: true }, function (err, resp, data) {
     if (err) {
       return cb(err)
-    }
-
-    var data = null
-    try {
-      data = JSON.parse(body)
-    } catch (e) {
-      return cb(new Error('Error parsing response from Steam Workshop'))
     }
 
     if (!data || !data.response || !data.response.collectiondetails) {
@@ -66,16 +59,9 @@ SteamWorkshop.prototype.getPublishedFileDetails = function (ids, cb) {
   ids = SteamWorkshop.ensureArray(ids)
   var requestData = SteamWorkshop.prepareFilesData(ids)
 
-  request.post(FILE_URL, { form: requestData }, function (err, resp, body) {
+  request.post(FILE_URL, { form: requestData, json: true }, function (err, resp, data) {
     if (err) {
       return cb(err)
-    }
-
-    var data = null
-    try {
-      data = JSON.parse(body)
-    } catch (e) {
-      return cb(new Error('Error parsing response from Steam Workshop'))
     }
 
     if (!data || !data.response || !data.response.publishedfiledetails) {
@@ -87,16 +73,9 @@ SteamWorkshop.prototype.getPublishedFileDetails = function (ids, cb) {
 }
 
 SteamWorkshop.prototype.queryFiles = function (query, cb) {
-  request.get(QUERY_FILES_URL, { qs: query }, function (err, resp, body) {
+  request.get(QUERY_FILES_URL, { json: true, qs: query }, function (err, resp, data) {
     if (err) {
       return cb(err)
-    }
-
-    var data = null
-    try {
-      data = JSON.parse(body)
-    } catch (e) {
-      return cb(new Error('Error parsing response from Steam Workshop'))
     }
 
     if (!data || !data.response || !data.response.publishedfiledetails) {
