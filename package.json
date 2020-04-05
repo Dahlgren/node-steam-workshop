@@ -4,7 +4,6 @@
   "description": "Download files and collections from Steam Workshop",
   "main": "src/workshop.js",
   "dependencies": {
-    "async": "^2.6.3",
     "request": "^2.88.0"
   },
   "devDependencies": {

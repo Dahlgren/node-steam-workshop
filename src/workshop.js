@@ -1,4 +1,3 @@
-var async = require('async')
 var fs = require('fs')
 var path = require('path')
 var request = require('request')
@@ -110,33 +109,45 @@ SteamWorkshop.prototype.queryFiles = function (query, cb) {
 
 /* Actual file download */
 
-SteamWorkshop.prototype.saveFileToDisk = function (file, folder, cb) {
-  var f = fs.createWriteStream(path.join(folder, file.filename))
-    .on('error', function (err) {
-      cb(err)
-    })
-    .on('finish', function () {
-      cb()
-    })
+SteamWorkshop.prototype.saveFileToDisk = function (file, folder) {
+  return new Promise(function (resolve, reject) {
+    var f = fs.createWriteStream(path.join(folder, file.filename))
+      .on('error', function (err) {
+        reject(err)
+      })
+      .on('finish', function () {
+        resolve()
+      })
 
-  request(file.file_url)
-    .on('error', function (err) {
-      cb(err)
-    })
-    .pipe(f)
+    request(file.file_url)
+      .on('error', function (err) {
+        reject(err)
+      })
+      .pipe(f)
+  })
 }
 
 SteamWorkshop.prototype.saveFilesToDisk = function (files, folder, cb) {
   var self = this
 
-  async.map(files, function (file, done) {
+  return Promise.all(files.map(function (file) {
     if (!file.file_url) {
-      done()
-    } else {
-      self.saveFileToDisk(file, folder, done)
+      return
     }
-  }, function (err, results) {
-    cb(err)
+
+    return self.saveFileToDisk(file, folder)
+  })).then(function (results) {
+    if (cb) {
+      cb(results)
+    }
+
+    return results
+  }).catch(function (err) {
+    if (cb) {
+      cb(err)
+    } else {
+      throw err
+    }
   })
 }
 
