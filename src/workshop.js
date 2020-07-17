@@ -132,10 +132,10 @@ SteamWorkshop.prototype.saveFilesToDisk = function (files, folder, cb) {
     return results
   }).catch(function (err) {
     if (cb) {
-      cb(err)
-    } else {
-      throw err
+      return cb(err)
     }
+
+    throw err
   })
 }
 
@@ -147,12 +147,12 @@ SteamWorkshop.prototype.downloadFiles = function (ids, cb) {
 
   self.getPublishedFileDetails(ids, function (err, files) {
     if (err) {
-      cb(err)
-    } else {
-      self.saveFilesToDisk(files, self.folder, function (err) {
-        cb(err, files)
-      })
+      return cb(err)
     }
+
+    self.saveFilesToDisk(files, self.folder, function (err) {
+      cb(err, files)
+    })
   })
 }
 
@@ -170,6 +170,10 @@ SteamWorkshop.prototype.downloadCollections = function (ids, cb) {
   var self = this
 
   self.getCollectionDetails(ids, function (err, response) {
+    if (err) {
+      return cb(err)
+    }
+
     var fileIds = response.map(function (collection) {
       if (!collection.children) {
         return []
@@ -182,11 +186,7 @@ SteamWorkshop.prototype.downloadCollections = function (ids, cb) {
       return a.concat(b)
     })
 
-    if (err) {
-      cb(err)
-    } else {
-      self.downloadFiles(fileIds, cb)
-    }
+    self.downloadFiles(fileIds, cb)
   })
 }
 
