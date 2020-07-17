@@ -89,20 +89,29 @@ SteamWorkshop.prototype.queryFiles = function (query, cb) {
 /* Actual file download */
 
 SteamWorkshop.prototype.saveFileToDisk = function (file, folder) {
-  return new Promise(function (resolve, reject) {
-    var f = fs.createWriteStream(path.join(folder, file.filename))
-      .on('error', function (err) {
-        reject(err)
-      })
-      .on('finish', function () {
-        resolve()
-      })
+  var folderPath = path.join(folder, path.dirname(file.filename))
+  var filePath = path.join(folder, file.filename)
 
-    request(file.file_url)
-      .on('error', function (err) {
-        reject(err)
-      })
-      .pipe(f)
+  return new Promise(function (resolve, reject) {
+    fs.mkdir(folderPath, { recursive: true }, function (err) {
+      if (err) {
+        return reject(err)
+      }
+
+      var f = fs.createWriteStream(filePath)
+        .on('error', function (err) {
+          reject(err)
+        })
+        .on('finish', function () {
+          resolve()
+        })
+
+      request(file.file_url)
+        .on('error', function (err) {
+          reject(err)
+        })
+        .pipe(f)
+    })
   })
 }
 
