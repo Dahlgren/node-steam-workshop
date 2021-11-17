@@ -42,16 +42,28 @@ SteamWorkshop.prototype.getCollectionDetails = function (ids, cb) {
   ids = SteamWorkshop.ensureArray(ids)
   var requestData = SteamWorkshop.prepareCollectionData(ids)
 
-  request.post(COLLECTION_URL, { form: requestData, json: true }, function (err, resp, data) {
-    if (err) {
-      return cb(err)
-    }
+  return new Promise(function (resolve, reject) {
+    request.post(COLLECTION_URL, { form: requestData, json: true }, function (err, resp, data) {
+      if (err) {
+        throw err
+      }
 
-    if (!data || !data.response || !data.response.collectiondetails) {
-      return cb(new Error('No data found'))
-    }
+      if (!data || !data.response || !data.response.collectiondetails) {
+        throw new Error('No data found')
+      }
 
-    cb(null, data.response.collectiondetails)
+      if (cb) {
+        cb(null, data.response.collectiondetails)
+      }
+
+      return resolve(data.response.collectiondetails)
+    })
+  }).catch(function (err) {
+    if (cb) {
+      cb(err)
+    } else {
+      throw err
+    }
   })
 }
 
@@ -59,30 +71,54 @@ SteamWorkshop.prototype.getPublishedFileDetails = function (ids, cb) {
   ids = SteamWorkshop.ensureArray(ids)
   var requestData = SteamWorkshop.prepareFilesData(ids)
 
-  request.post(FILE_URL, { form: requestData, json: true }, function (err, resp, data) {
-    if (err) {
-      return cb(err)
-    }
+  return new Promise(function (resolve, reject) {
+    request.post(FILE_URL, { form: requestData, json: true }, function (err, resp, data) {
+      if (err) {
+        throw err
+      }
 
-    if (!data || !data.response || !data.response.publishedfiledetails) {
-      return cb(new Error('No data found'))
-    }
+      if (!data || !data.response || !data.response.publishedfiledetails) {
+        throw new Error('No data found')
+      }
 
-    cb(null, data.response.publishedfiledetails)
+      if (cb) {
+        cb(null, data.response.publishedfiledetails)
+      }
+
+      return resolve(data.response.publishedfiledetails)
+    })
+  }).catch(function (err) {
+    if (cb) {
+      cb(err)
+    } else {
+      throw err
+    }
   })
 }
 
 SteamWorkshop.prototype.queryFiles = function (query, cb) {
-  request.get(QUERY_FILES_URL, { json: true, qs: query }, function (err, resp, data) {
-    if (err) {
-      return cb(err)
-    }
+  return new Promise(function (resolve, reject) {
+    request.get(QUERY_FILES_URL, { json: true, qs: query }, function (err, resp, data) {
+      if (err) {
+        throw err
+      }
 
-    if (!data || !data.response || !data.response.publishedfiledetails) {
-      return cb(new Error('No data found'))
-    }
+      if (!data || !data.response || !data.response.publishedfiledetails) {
+        throw new Error('No data found')
+      }
 
-    cb(null, data.response.publishedfiledetails)
+      if (cb) {
+        cb(null, data.response.publishedfiledetails)
+      }
+
+      return resolve(data.response.publishedfiledetails)
+    })
+  }).catch(function (err) {
+    if (cb) {
+      cb(err)
+    } else {
+      throw err
+    }
   })
 }
 
@@ -145,22 +181,27 @@ SteamWorkshop.prototype.saveFilesToDisk = function (files, folder, cb) {
 SteamWorkshop.prototype.downloadFiles = function (ids, cb) {
   var self = this
 
-  self.getPublishedFileDetails(ids, function (err, files) {
-    if (err) {
-      return cb(err)
-    }
-
-    self.saveFilesToDisk(files, self.folder, function (err) {
-      cb(err, files)
+  return self.getPublishedFileDetails(ids)
+    .then(function (files) {
+      return self.saveFilesToDisk(files, self.folder)
+        .then(function () {
+          return files
+        })
     })
-  })
+    .catch(function (err) {
+      if (cb) {
+        cb(err)
+      } else {
+        throw err
+      }
+    })
 }
 
 /*
  * Download single file from Steam Workshop
  */
 SteamWorkshop.prototype.downloadFile = function (id, cb) {
-  this.downloadFiles([id], cb)
+  return this.downloadFiles([id], cb)
 }
 
 /*
@@ -169,32 +210,36 @@ SteamWorkshop.prototype.downloadFile = function (id, cb) {
 SteamWorkshop.prototype.downloadCollections = function (ids, cb) {
   var self = this
 
-  self.getCollectionDetails(ids, function (err, response) {
-    if (err) {
-      return cb(err)
-    }
+  return self.getCollectionDetails(ids)
+    .then(function (response) {
+      var fileIds = response.map(function (collection) {
+        if (!collection.children) {
+          return []
+        }
 
-    var fileIds = response.map(function (collection) {
-      if (!collection.children) {
-        return []
-      }
-
-      return collection.children.map(function (file) {
-        return file.publishedfileid
+        return collection.children.map(function (file) {
+          return file.publishedfileid
+        })
+      }).reduce(function (a, b) {
+        return a.concat(b)
       })
-    }).reduce(function (a, b) {
-      return a.concat(b)
-    })
 
-    self.downloadFiles(fileIds, cb)
-  })
+      return self.downloadFiles(fileIds, cb)
+    })
+    .catch(function (err) {
+      if (cb) {
+        cb(err)
+      } else {
+        throw err
+      }
+    })
 }
 
 /*
  * Download single collection from Steam Workshop
  */
 SteamWorkshop.prototype.downloadCollection = function (id, cb) {
-  this.downloadCollections([id], cb)
+  return this.downloadCollections([id], cb)
 }
 
 module.exports = SteamWorkshop

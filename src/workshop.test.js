@@ -71,5 +71,16 @@ describe('SteamWorkshop', function () {
         done()
       })
     })
+
+    it('should get published file info from promise', function () {
+      var steamWorkshop = new SteamWorkshop()
+      return steamWorkshop.getPublishedFileDetails('1326839989')
+        .then(function (files) {
+          assert.deepEqual(files.length, 1)
+
+          var file = files[0]
+          assert.deepEqual(file.title, 'Discord Rich Presence')
+        })
+    })
   })
 })
